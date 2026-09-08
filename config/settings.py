@@ -81,24 +81,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
-DATABASE_URL = os.environ.get('postgresql://neondb_owner:npg_6KFTqbUzPB3J@ep-soft-wave-ayzmjq3c-pooler.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require')
+NEON_URL = 'postgresql://neondb_owner:npg_6KFTqbUzPB3J@ep-soft-wave-ayzmjq3c-pooler.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+DATABASE_URL = os.environ.get('DATABASE_URL', NEON_URL)
 
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
+DATABASES = {
+    'default': dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
