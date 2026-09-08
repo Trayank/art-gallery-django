@@ -45,18 +45,26 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="hero-img-wrapper">
+                <div class="hero-img-wrapper overflow-hidden position-relative rounded-4">
                     {% if featured_artworks %}
-                        <img src="{{ featured_artworks.0.image.url }}" alt="{{ featured_artworks.0.title }}">
-                        <div class="hero-badge-overlay d-flex justify-content-between align-items-center">
-                            <div>
-                                <small class="text-warning text-uppercase fw-semibold tracking-wide">Featured Masterpiece</small>
-                                <h5 class="mb-0 text-white font-serif">{{ featured_artworks.0.title }}</h5>
-                                <small class="text-secondary">{{ featured_artworks.0.medium }} &bull; {{ featured_artworks.0.dimensions }}</small>
+                        <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="4500">
+                            <div class="carousel-inner h-100">
+                                {% for artwork in featured_artworks %}
+                                    <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="d-block w-100 h-100" style="object-fit: cover;">
+                                        <div class="hero-badge-overlay d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <small class="text-warning text-uppercase fw-semibold tracking-wide">Featured Masterpiece</small>
+                                                <h5 class="mb-0 text-white font-serif">{{ artwork.title }}</h5>
+                                                <small class="text-secondary">{{ artwork.medium }} &bull; {{ artwork.dimensions }}</small>
+                                            </div>
+                                            <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-gold btn-sm rounded-circle p-2" aria-label="View Details">
+                                                <i class="bi bi-arrow-right fs-5"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                            <a href="{% url 'gallery:artwork_detail' featured_artworks.0.slug %}" class="btn btn-gold btn-sm rounded-circle p-2" aria-label="View Details">
-                                <i class="bi bi-arrow-right fs-5"></i>
-                            </a>
                         </div>
                     {% else %}
                         <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1000" alt="D-Art Studio Showcase">
@@ -67,62 +75,86 @@
     </div>
 </section>
 
-<!-- Featured Artworks Section -->
+<!-- Featured Artworks Section Carousel -->
 <section class="py-5 bg-dark">
     <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-end mb-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-4 gap-3">
             <div>
                 <span class="text-warning text-uppercase fw-bold tracking-wider small">Selected Masterworks</span>
                 <h2 class="display-5 text-white font-serif mb-0">Featured Artworks For Sale</h2>
             </div>
-            <a href="{% url 'gallery:gallery_list' %}" class="btn btn-outline-gold">
-                View All {{ total_artworks }} Artworks <i class="bi bi-arrow-right ms-1"></i>
-            </a>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex gap-2">
+                    <button class="featured-carousel-control" type="button" data-bs-target="#featuredArtworksCarousel" data-bs-slide="prev" aria-label="Previous Slide">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="featured-carousel-control" type="button" data-bs-target="#featuredArtworksCarousel" data-bs-slide="next" aria-label="Next Slide">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <a href="{% url 'gallery:gallery_list' %}" class="btn btn-outline-gold">
+                    View All {{ total_artworks }} Artworks <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
         </div>
 
-        <div class="row g-4">
-            {% for artwork in featured_artworks %}
-                <div class="col-lg-4 col-md-6">
-                    <div class="art-card">
-                        <div class="art-card-img-wrapper">
-                            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" loading="lazy">
-                            <div class="position-absolute top-0 end-0 p-3">
-                                {% if artwork.is_available %}
-                                    <span class="badge badge-available"><i class="bi bi-circle-fill fs-6 me-1 small"></i> Available</span>
-                                {% else %}
-                                    <span class="badge badge-sold"><i class="bi bi-x-circle-fill me-1"></i> Private Collection</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="art-card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge badge-medium">{{ artwork.medium }}</span>
-                                <span class="text-secondary small"><i class="bi bi-aspect-ratio me-1"></i> {{ artwork.dimensions }}</span>
-                            </div>
-                            <h4 class="font-serif text-white mb-2 fs-4">
-                                <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="text-white text-decoration-none hover-gold">{{ artwork.title }}</a>
-                            </h4>
-                            <p class="text-secondary small mb-3 flex-grow-1">
-                                {{ artwork.description|truncatewords:15 }}
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
-                                <div>
-                                    <small class="text-secondary d-block">Price</small>
-                                    <span class="fs-5 fw-bold text-warning">Rs {{ artwork.price|floatformat:2 }}</span>
+        {% if featured_artworks %}
+            <div id="featuredArtworksCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+                <div class="carousel-inner">
+                    {% for artwork in featured_artworks %}
+                        {% if forloop.first or forloop.counter0|divisibleby:3 %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row g-4">
+                        {% endif %}
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="art-card h-100 d-flex flex-column">
+                                <div class="art-card-img-wrapper">
+                                    <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" loading="lazy">
+                                    <div class="position-absolute top-0 end-0 p-3">
+                                        {% if artwork.is_available %}
+                                            <span class="badge badge-available"><i class="bi bi-circle-fill fs-6 me-1 small"></i> Available</span>
+                                        {% else %}
+                                            <span class="badge badge-sold"><i class="bi bi-x-circle-fill me-1"></i> Private Collection</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-outline-gold btn-sm">
-                                    View Details <i class="bi bi-chevron-right ms-1"></i>
-                                </a>
+                                <div class="art-card-body d-flex flex-column flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge badge-medium">{{ artwork.medium }}</span>
+                                        <span class="text-secondary small"><i class="bi bi-aspect-ratio me-1"></i> {{ artwork.dimensions }}</span>
+                                    </div>
+                                    <h4 class="font-serif text-white mb-2 fs-4 art-card-title">
+                                        <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="text-white text-decoration-none hover-gold">{{ artwork.title }}</a>
+                                    </h4>
+                                    <p class="text-secondary small mb-3 flex-grow-1 art-card-desc">
+                                        {{ artwork.description|truncatewords:15 }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25 mt-auto">
+                                        <div>
+                                            <small class="text-secondary d-block">Price</small>
+                                            <span class="fs-5 fw-bold text-warning">Rs {{ artwork.price|floatformat:2 }}</span>
+                                        </div>
+                                        <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-outline-gold btn-sm">
+                                            View Details <i class="bi bi-chevron-right ms-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <div class="col-12 text-center py-5">
-                    <p class="text-secondary">No featured artworks loaded yet.</p>
-                </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <p class="text-secondary">No featured artworks loaded yet.</p>
+            </div>
+        {% endif %}
     </div>
 </section>
 
@@ -205,7 +237,7 @@
                     <div class="col-md-6">
                         <div class="d-flex align-items-start">
                             <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-3 me-3">
-                                <i class="bi bi-box-square-fill fs-3"></i>
+                                <i class="bi bi-box-seam-fill fs-3"></i>
                             </div>
                             <div>
                                 <h5 class="font-serif mb-2">Museum-Grade Shipping</h5>

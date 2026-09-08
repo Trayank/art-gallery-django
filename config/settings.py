@@ -168,3 +168,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+# Twilio WhatsApp Integration
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_WHATSAPP_NUMBER = os.environ.get('TWILIO_WHATSAPP_NUMBER', 'whatsapp:+14155238886')
+MY_PHONE_NUMBER = os.environ.get('MY_PHONE_NUMBER')
+
+

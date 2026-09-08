@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from .models import Artwork, CommissionRequest, ArtClass, ContactMessage
 from .forms import CommissionRequestForm, ContactForm, SeatReservationForm
+from .utils import send_whatsapp_alert
 
 class HomeView(TemplateView):
     template_name = 'gallery/home.html'
@@ -98,6 +99,13 @@ class CommissionView(View):
         form = CommissionRequestForm(request.POST, request.FILES)
         if form.is_valid():
             commission = form.save()
+            send_whatsapp_alert(
+                name=commission.client_name,
+                email=commission.email,
+                phone=commission.phone,
+                message_text=f"Style: {commission.style} | Budget: {commission.budget} | Description: {commission.description}",
+                form_type="Custom Commission Inquiry"
+            )
             messages.success(
                 request,
                 f"Thank you, {commission.client_name}! Your custom commission inquiry for '{commission.style}' has been received. D-Art Studio team will contact you at {commission.email} within 24 hours."
@@ -154,6 +162,12 @@ class ContactView(View):
         form = ContactForm(request.POST)
         if form.is_valid():
             msg = form.save()
+            send_whatsapp_alert(
+                name=msg.name,
+                email=msg.email,
+                message_text=f"Subject: {msg.subject}\nMessage: {msg.message}",
+                form_type="Contact Inquiry"
+            )
             messages.success(
                 request,
                 f"Thank you, {msg.name}! Your message regarding '{msg.subject}' has been sent to D-Art Studio."
