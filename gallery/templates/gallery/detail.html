@@ -1,0 +1,200 @@
+{% extends 'gallery/base.html' %}
+{% load static %}
+
+{% block title %}{{ artwork.title }} - Original {{ artwork.medium }} | D-Art Studio{% endblock %}
+{% block meta_description %}{{ artwork.title }} is an original {{ artwork.medium }} painting ({{ artwork.dimensions }}) at D-Art Studio. Price: ${{ artwork.price }}.{% endblock %}
+
+{% block og_title %}{{ artwork.title }} | Original {{ artwork.medium }}{% endblock %}
+{% block og_description %}{{ artwork.description|truncatewords:25 }}{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ artwork.image.url }}{% endblock %}
+
+{% block extra_head %}
+<!-- Product JSON-LD Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ artwork.title|escapejs }}",
+  "image": [
+    "{{ request.scheme }}://{{ request.get_host }}{{ artwork.image.url }}"
+  ],
+  "description": "{{ artwork.description|escapejs }}",
+  "sku": "D-ART-{{ artwork.id }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "D-Art Studio"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.build_absolute_uri }}",
+    "priceCurrency": "USD",
+    "price": "{{ artwork.price }}",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "{% if artwork.is_available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 text-white">
+    <div class="container py-3">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'gallery:home' %}" class="text-secondary text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'gallery:gallery_list' %}" class="text-secondary text-decoration-none">Gallery Catalog</a></li>
+                <li class="breadcrumb-item active text-warning" aria-current="page">{{ artwork.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5 align-items-start">
+            <!-- Artwork High Resolution Showcase -->
+            <div class="col-lg-7">
+                <div class="glass-panel p-2 p-md-3 overflow-hidden position-relative shadow-lg">
+                    <a href="{{ artwork.image.url }}" target="_blank" data-bs-toggle="modal" data-bs-target="#imageZoomModal">
+                        <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="img-fluid rounded-3 w-100" style="max-height: 650px; object-fit: contain; background-color: #0d0d0f;">
+                    </a>
+                    <button type="button" class="btn btn-dark btn-sm position-absolute bottom-0 end-0 m-4 opacity-75" data-bs-toggle="modal" data-bs-target="#imageZoomModal">
+                        <i class="bi bi-arrows-angle-expand me-1"></i> Full Resolution View
+                    </button>
+                </div>
+            </div>
+
+            <!-- Artwork Specifications & Acquisition Panel -->
+            <div class="col-lg-5">
+                <div class="glass-panel p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge badge-medium fs-6">{{ artwork.medium }}</span>
+                        {% if artwork.is_available %}
+                            <span class="badge badge-available"><i class="bi bi-circle-fill me-1 small"></i> Available for Sale</span>
+                        {% else %}
+                            <span class="badge badge-sold"><i class="bi bi-x-circle-fill me-1"></i> Private Collection</span>
+                        {% endif %}
+                    </div>
+
+                    <h1 class="font-serif display-6 text-white mb-2">{{ artwork.title }}</h1>
+                    <p class="text-secondary mb-4">By <strong>D-Art Studio</strong> &bull; Created {{ artwork.year_created }}</p>
+
+                    <div class="p-3 bg-dark bg-opacity-60 rounded-3 mb-4 border border-secondary border-opacity-30">
+                        <small class="text-secondary text-uppercase tracking-wider d-block mb-1">Acquisition Price</small>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <span class="display-6 fw-bold text-warning">${{ artwork.price|floatformat:2 }}</span>
+                            <span class="text-secondary small">USD (Complimentary Insured Shipping)</span>
+                        </div>
+                    </div>
+
+                    <!-- Artwork Details List -->
+                    <div class="mb-4">
+                        <h6 class="text-warning text-uppercase fw-bold mb-3 small">Artwork Specifications</h6>
+                        <ul class="list-unstyled text-secondary small">
+                            <li class="mb-2 d-flex justify-content-between border-bottom border-secondary border-opacity-25 pb-2">
+                                <span><i class="bi bi-aspect-ratio me-2 text-warning"></i> Dimensions:</span>
+                                <strong class="text-white">{{ artwork.dimensions }}</strong>
+                            </li>
+                            <li class="mb-2 d-flex justify-content-between border-bottom border-secondary border-opacity-25 pb-2">
+                                <span><i class="bi bi-palette me-2 text-warning"></i> Medium:</span>
+                                <strong class="text-white">{{ artwork.medium }}</strong>
+                            </li>
+                            <li class="mb-2 d-flex justify-content-between border-bottom border-secondary border-opacity-25 pb-2">
+                                <span><i class="bi bi-calendar-check me-2 text-warning"></i> Year Created:</span>
+                                <strong class="text-white">{{ artwork.year_created }}</strong>
+                            </li>
+                            <li class="mb-2 d-flex justify-content-between border-bottom border-secondary border-opacity-25 pb-2">
+                                <span><i class="bi bi-patch-check-fill me-2 text-warning"></i> Certificate:</span>
+                                <strong class="text-white">Included (Signed by Studio Artist)</strong>
+                            </li>
+                            <li class="mb-2 d-flex justify-content-between border-bottom border-secondary border-opacity-25 pb-2">
+                                <span><i class="bi bi-box-seam me-2 text-warning"></i> Framing:</span>
+                                <strong class="text-white">Gallery Wrap Canvas (Ready to Hang)</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-3">
+                        {% if artwork.is_available %}
+                            <a href="{% url 'gallery:contact' %}?subject=Inquiry regarding artwork: {{ artwork.title }}" class="btn btn-gold btn-lg">
+                                <i class="bi bi-bag-check-fill me-2"></i> Acquire / Inquire About This Piece
+                            </a>
+                        {% else %}
+                            <button class="btn btn-secondary btn-lg" disabled>
+                                <i class="bi bi-lock-fill me-2"></i> Sold to Private Collection
+                            </button>
+                            <a href="{% url 'gallery:commission' %}?style={{ artwork.medium }}" class="btn btn-outline-gold">
+                                <i class="bi bi-brush me-2"></i> Commission Similar Custom Piece
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description & Artist Notes -->
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <div class="glass-panel p-4 p-md-5">
+                    <h3 class="font-serif text-white mb-3">About The Masterwork</h3>
+                    <p class="text-secondary lead fs-6 lh-lg mb-4">
+                        {{ artwork.description }}
+                    </p>
+                    <div class="p-3 bg-dark rounded-3 border-start border-warning border-4">
+                        <small class="text-warning text-uppercase fw-bold d-block mb-1">Studio Note</small>
+                        <p class="text-light fst-italic mb-0 small">
+                            "When creating {{ artwork.title }}, D-Art Studio artists sought to harmonize high contrast light glazes with rich impasto textures, encouraging the viewer to experience dynamic depth under ambient studio lighting."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Artworks Carousel/Grid -->
+        {% if related_artworks %}
+            <div class="mt-5 pt-4">
+                <h3 class="font-serif text-white mb-4">You May Also Like</h3>
+                <div class="row g-4">
+                    {% for item in related_artworks %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="art-card">
+                                <div class="art-card-img-wrapper">
+                                    <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                                    <div class="position-absolute top-0 end-0 p-3">
+                                        {% if item.is_available %}
+                                            <span class="badge badge-available"><i class="bi bi-circle-fill me-1 small"></i> Available</span>
+                                        {% else %}
+                                            <span class="badge badge-sold">Sold</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="art-card-body">
+                                    <h5 class="font-serif text-white mb-1"><a href="{% url 'gallery:artwork_detail' item.slug %}" class="text-white text-decoration-none hover-gold">{{ item.title }}</a></h5>
+                                    <small class="text-secondary mb-3 d-block">{{ item.medium }} &bull; {{ item.dimensions }}</small>
+                                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                                        <span class="fw-bold text-warning">${{ item.price|floatformat:2 }}</span>
+                                        <a href="{% url 'gallery:artwork_detail' item.slug %}" class="btn btn-outline-gold btn-sm">View <i class="bi bi-chevron-right ms-1"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Full Resolution Image Zoom Modal -->
+<div class="modal fade" id="imageZoomModal" tabindex="-1" aria-labelledby="imageZoomModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title font-serif" id="imageZoomModalLabel">{{ artwork.title }} (Full Resolution)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="img-fluid w-100" style="max-height: 85vh; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

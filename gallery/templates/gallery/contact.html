@@ -1,0 +1,166 @@
+{% extends 'gallery/base.html' %}
+{% load static %}
+
+{% block title %}Contact D-Art Studio & Soho Gallery Visit | Fine Art Studio{% endblock %}
+{% block meta_description %}Contact D-Art Studio in Soho, NY. Schedule private gallery viewings, press inquiries, and fine art acquisitions.{% endblock %}
+
+{% block extra_head %}
+<!-- LocalBusiness JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ArtGallery",
+  "name": "D-Art Studio",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'gallery/images/artist-og.jpg' %}",
+  "url": "{{ request.build_absolute_uri }}",
+  "telephone": "+1-212-890-4432",
+  "email": "contact@dartstudio.art",
+  "priceRange": "$$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "452 West Broadway",
+    "addressLocality": "Soho, New York",
+    "addressRegion": "NY",
+    "postalCode": "10012",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.7259,
+    "longitude": -74.0003
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "11:00",
+      "closes": "18:00"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="py-5 text-white position-relative" style="background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 70%);">
+    <div class="container text-center py-3">
+        <span class="text-warning text-uppercase fw-bold tracking-wider small">Get In Touch</span>
+        <h1 class="display-4 font-serif text-white mb-3">Contact D-Art Studio & Soho Gallery</h1>
+        <p class="lead text-secondary mx-auto" style="max-width: 650px;">
+            Whether inquiring about artwork acquisition, scheduling a private studio viewing, or discussing press coverage, we look forward to hearing from you.
+        </p>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="glass-panel p-4 p-md-5">
+                    <h3 class="font-serif text-white mb-4"><i class="bi bi-chat-left-dots-fill text-warning me-2"></i> Send Studio Inquiry</h3>
+
+                    <form method="POST" action="{% url 'gallery:contact' %}">
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">Full Name <span class="text-warning">*</span></label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address <span class="text-warning">*</span></label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12">
+                                <label for="{{ form.subject.id_for_label }}" class="form-label">Subject / Topic <span class="text-warning">*</span></label>
+                                {{ form.subject }}
+                                {% if form.subject.errors %}
+                                    <div class="text-danger small mt-1">{{ form.subject.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12">
+                                <label for="{{ form.message.id_for_label }}" class="form-label">Message <span class="text-warning">*</span></label>
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                    <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn btn-gold btn-lg w-100 py-3">
+                                    <i class="bi bi-send-fill me-2"></i> Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Studio Info & Hours -->
+            <div class="col-lg-5">
+                <div class="glass-panel p-4 p-md-5 h-100 d-flex flex-column">
+                    <h3 class="font-serif text-white mb-4">Studio Information</h3>
+
+                    <div class="mb-4">
+                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-geo-alt-fill me-2"></i> Soho Gallery Address</h6>
+                        <p class="text-light mb-0">
+                            452 West Broadway<br>
+                            Soho, New York, NY 10012<br>
+                            United States
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-clock-fill me-2"></i> Gallery Hours</h6>
+                        <p class="text-light mb-1"><strong>Tuesday &ndash; Saturday:</strong> 11:00 AM &ndash; 6:00 PM EST</p>
+                        <p class="text-secondary small mb-0">Sunday & Monday: Private Viewings by Appointment Only</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-telephone-fill me-2"></i> Direct Contact</h6>
+                        <p class="text-light mb-1">Email: <a href="mailto:contact@dartstudio.art" class="text-warning text-decoration-none">contact@dartstudio.art</a></p>
+                        <p class="text-light mb-0">Phone: <a href="tel:+12128904432" class="text-warning text-decoration-none">+1 (212) 890-4432</a></p>
+                    </div>
+
+                    <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-30 mt-auto">
+                        <small class="text-warning fw-bold d-block mb-1"><i class="bi bi-shield-check me-1"></i> Private Collector Services</small>
+                        <p class="text-secondary small mb-0">Private studio consultations, art advisory, and custom framing recommendations available upon request.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedded Google Maps Location iframe -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="glass-panel p-3">
+                    <h4 class="font-serif text-white mb-3 px-2"><i class="bi bi-map-fill text-warning me-2"></i> Studio & Gallery Location Map</h4>
+                    <div class="rounded-3 overflow-hidden shadow-lg" style="height: 420px;">
+                        <iframe
+                            title="D-Art Studio Soho Location"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.479590456108!2d-74.0028723234241!3d40.72594617139151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598c8c5c7d81%3A0x6b823e59005086d9!2s452%20W%20Broadway%2C%20New%20York%2C%20NY%2010012!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style="border:0; filter: grayscale(80%) invert(90%) contrast(1.2);"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

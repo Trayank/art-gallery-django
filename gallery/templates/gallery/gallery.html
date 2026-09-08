@@ -1,0 +1,160 @@
+{% extends 'gallery/base.html' %}
+{% load static %}
+
+{% block title %}Original Artwork Catalog | D-Art Studio{% endblock %}
+{% block meta_description %}Browse the complete collection of original oil paintings, acrylic masterworks, watercolor illustrations, and fine art pieces by D-Art Studio.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-5 text-white position-relative" style="background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 70%);">
+    <div class="container text-center py-3">
+        <span class="text-warning text-uppercase fw-bold tracking-wider small">Gallery Collection</span>
+        <h1 class="display-4 font-serif text-white mb-3">Original Fine Art Masterworks</h1>
+        <p class="lead text-secondary mx-auto" style="max-width: 650px;">
+            Explore our curated catalog of original paintings available for acquisition. Filter by medium, availability status, or price range.
+        </p>
+    </div>
+</section>
+
+<!-- Filter & Search Controls Bar -->
+<section class="pb-4">
+    <div class="container">
+        <div class="glass-panel p-4 mb-5">
+            <form method="GET" action="{% url 'gallery:gallery_list' %}" class="row g-3 align-items-end">
+                <!-- Search Input -->
+                <div class="col-lg-4 col-md-6">
+                    <label for="q" class="form-label text-warning small text-uppercase fw-semibold">Search Title or Keyword</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+                        <input type="text" id="q" name="q" class="form-control bg-dark border-secondary text-white" placeholder="e.g. Venetian, Abstract, Sunset..." value="{{ search_query }}">
+                    </div>
+                </div>
+
+                <!-- Medium Filter -->
+                <div class="col-lg-3 col-md-6">
+                    <label for="medium" class="form-label text-warning small text-uppercase fw-semibold">Medium</label>
+                    <select id="medium" name="medium" class="form-select bg-dark border-secondary text-white" onchange="this.form.submit()">
+                        <option value="all" {% if selected_medium == 'all' %}selected{% endif %}>All Mediums</option>
+                        {% for m in mediums %}
+                            <option value="{{ m }}" {% if selected_medium == m %}selected{% endif %}>{{ m }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Availability Filter -->
+                <div class="col-lg-3 col-md-6">
+                    <label for="availability" class="form-label text-warning small text-uppercase fw-semibold">Status</label>
+                    <select id="availability" name="availability" class="form-select bg-dark border-secondary text-white" onchange="this.form.submit()">
+                        <option value="all" {% if selected_availability == 'all' %}selected{% endif %}>All Statuses</option>
+                        <option value="available" {% if selected_availability == 'available' %}selected{% endif %}>Available for Sale</option>
+                        <option value="sold" {% if selected_availability == 'sold' %}selected{% endif %}>Private Collection (Sold)</option>
+                    </select>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="col-lg-2 col-md-6">
+                    <label for="price_range" class="form-label text-warning small text-uppercase fw-semibold">Price Range</label>
+                    <select id="price_range" name="price_range" class="form-select bg-dark border-secondary text-white" onchange="this.form.submit()">
+                        <option value="all" {% if selected_price == 'all' %}selected{% endif %}>Any Price</option>
+                        <option value="under-1000" {% if selected_price == 'under-1000' %}selected{% endif %}>Under $1,000</option>
+                        <option value="1000-2500" {% if selected_price == '1000-2500' %}selected{% endif %}>$1,000 - $2,500</option>
+                        <option value="over-2500" {% if selected_price == 'over-2500' %}selected{% endif %}>Over $2,500</option>
+                    </select>
+                </div>
+
+                <div class="col-12 d-flex justify-content-between align-items-center pt-2">
+                    <small class="text-secondary">
+                        Showing {{ page_obj.paginator.count }} artwork(s)
+                    </small>
+                    {% if selected_medium != 'all' or selected_availability != 'all' or selected_price != 'all' or search_query %}
+                        <a href="{% url 'gallery:gallery_list' %}" class="btn btn-link text-warning p-0 small text-decoration-none">
+                            <i class="bi bi-x-circle me-1"></i> Reset Filters
+                        </a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <!-- Artwork Grid -->
+        <div class="row g-4">
+            {% for artwork in artworks %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="art-card">
+                        <div class="art-card-img-wrapper">
+                            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" loading="lazy">
+                            <div class="position-absolute top-0 end-0 p-3">
+                                {% if artwork.is_available %}
+                                    <span class="badge badge-available"><i class="bi bi-circle-fill me-1 small"></i> Available</span>
+                                {% else %}
+                                    <span class="badge badge-sold"><i class="bi bi-x-circle-fill me-1"></i> Sold</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="art-card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge badge-medium">{{ artwork.medium }}</span>
+                                <span class="text-secondary small"><i class="bi bi-aspect-ratio me-1"></i> {{ artwork.dimensions }}</span>
+                            </div>
+                            <h3 class="font-serif text-white mb-2 fs-4">
+                                <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="text-white text-decoration-none hover-gold">{{ artwork.title }}</a>
+                            </h3>
+                            <p class="text-secondary small mb-3 flex-grow-1">
+                                {{ artwork.description|truncatewords:18 }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
+                                <div>
+                                    <small class="text-secondary d-block">Price</small>
+                                    <span class="fs-5 fw-bold text-warning">${{ artwork.price|floatformat:2 }}</span>
+                                </div>
+                                <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-outline-gold btn-sm">
+                                    View Piece <i class="bi bi-chevron-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center py-5 glass-panel">
+                    <i class="bi bi-palette display-1 text-secondary opacity-50 mb-3 d-block"></i>
+                    <h4 class="text-white font-serif mb-2">No Artworks Found</h4>
+                    <p class="text-secondary mb-4">No paintings match your selected filter criteria. Try adjusting your medium, status, or search query.</p>
+                    <a href="{% url 'gallery:gallery_list' %}" class="btn btn-gold">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> View All Artworks
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <nav class="mt-5" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link bg-dark text-warning border-secondary" href="?page={{ page_obj.previous_page_number }}&medium={{ selected_medium }}&availability={{ selected_availability }}&price_range={{ selected_price }}&q={{ search_query }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for page_num in paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == page_num %}active{% endif %}">
+                            <a class="page-link {% if page_obj.number == page_num %}bg-warning text-dark border-warning fw-bold{% else %}bg-dark text-white border-secondary{% endif %}" href="?page={{ page_num }}&medium={{ selected_medium }}&availability={{ selected_availability }}&price_range={{ selected_price }}&q={{ search_query }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link bg-dark text-warning border-secondary" href="?page={{ page_obj.next_page_number }}&medium={{ selected_medium }}&availability={{ selected_availability }}&price_range={{ selected_price }}&q={{ search_query }}" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

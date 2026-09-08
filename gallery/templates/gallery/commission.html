@@ -1,0 +1,163 @@
+{% extends 'gallery/base.html' %}
+{% load static %}
+
+{% block title %}Commission Custom Artwork | D-Art Studio{% endblock %}
+{% block meta_description %}Commission a bespoke oil painting, fine art portrait, or custom canvas piece created specifically for your home or corporate gallery by D-Art Studio.{% endblock %}
+
+{% block content %}
+<section class="py-5 text-white position-relative" style="background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 70%);">
+    <div class="container text-center py-3">
+        <span class="text-warning text-uppercase fw-bold tracking-wider small">Bespoke Art Creation</span>
+        <h1 class="display-4 font-serif text-white mb-3">Custom Commission Request</h1>
+        <p class="lead text-secondary mx-auto" style="max-width: 700px;">
+            Work directly with master artists at D-Art Studio to bring your vision to life on canvas. Fill out the inquiry form below to begin your personalized artwork consultation.
+        </p>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Form Column -->
+            <div class="col-lg-8">
+                <div class="glass-panel p-4 p-md-5">
+                    <h3 class="font-serif text-white mb-4"><i class="bi bi-brush-fill text-warning me-2"></i> Commission Details Form</h3>
+
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+                            <!-- Client Name -->
+                            <div class="col-md-6">
+                                <label for="{{ form.client_name.id_for_label }}" class="form-label">Your Name <span class="text-warning">*</span></label>
+                                {{ form.client_name }}
+                                {% if form.client_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.client_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address <span class="text-warning">*</span></label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number <span class="text-warning">*</span></label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Preferred Style -->
+                            <div class="col-md-6">
+                                <label for="{{ form.style.id_for_label }}" class="form-label">Artistic Medium / Style <span class="text-warning">*</span></label>
+                                {{ form.style }}
+                                {% if form.style.errors %}
+                                    <div class="text-danger small mt-1">{{ form.style.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Budget Range -->
+                            <div class="col-md-6">
+                                <label for="{{ form.budget.id_for_label }}" class="form-label">Estimated Budget Range <span class="text-warning">*</span></label>
+                                {{ form.budget }}
+                                {% if form.budget.errors %}
+                                    <div class="text-danger small mt-1">{{ form.budget.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Target Deadline -->
+                            <div class="col-md-6">
+                                <label for="{{ form.deadline.id_for_label }}" class="form-label">Target Completion Date <span class="text-warning">*</span></label>
+                                {{ form.deadline }}
+                                {% if form.deadline.errors %}
+                                    <div class="text-danger small mt-1">{{ form.deadline.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Reference Image Upload -->
+                            <div class="col-12">
+                                <label for="{{ form.reference_image.id_for_label }}" class="form-label">Reference Photo / Room Setting (Optional)</label>
+                                {{ form.reference_image }}
+                                <small class="text-secondary d-block mt-1">Upload a photo of your space, inspiration palette, or reference image (.jpg, .png, .jpeg).</small>
+                                {% if form.reference_image.errors %}
+                                    <div class="text-danger small mt-1">{{ form.reference_image.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">Commission Description & Vision <span class="text-warning">*</span></label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn btn-gold btn-lg w-100 py-3">
+                                    <i class="bi bi-send-fill me-2"></i> Submit Commission Consultation Request
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Process Sidebar Column -->
+            <div class="col-lg-4">
+                <div class="glass-panel p-4 p-md-5">
+                    <h4 class="font-serif text-white mb-4">The Commission Journey</h4>
+
+                    <div class="d-flex mb-4">
+                        <div class="badge bg-warning text-dark rounded-circle me-3 fs-5 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">1</div>
+                        <div>
+                            <h6 class="text-white font-serif mb-1">Consultation & Sketching</h6>
+                            <p class="text-secondary small mb-0">We review your reference photos, wall measurements, and color preferences to draft initial compositional sketches.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-4">
+                        <div class="badge bg-warning text-dark rounded-circle me-3 fs-5 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">2</div>
+                        <div>
+                            <h6 class="text-white font-serif mb-1">Concept Approval</h6>
+                            <p class="text-secondary small mb-0">Upon approving the color study and compositional draft, a 50% deposit reserves your spot in the studio queue.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-4">
+                        <div class="badge bg-warning text-dark rounded-circle me-3 fs-5 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">3</div>
+                        <div>
+                            <h6 class="text-white font-serif mb-1">Studio Creation & Updates</h6>
+                            <p class="text-secondary small mb-0">Receive high-resolution progress photos as layers of oil glazes or acrylic textures build up on canvas.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="badge bg-warning text-dark rounded-circle me-3 fs-5 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">4</div>
+                        <div>
+                            <h6 class="text-white font-serif mb-1">Insured Crate Delivery</h6>
+                            <p class="text-secondary small mb-0">Your finished masterpiece is varnished, signed, cataloged with a Certificate of Authenticity, and safely shipped.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Box -->
+                <div class="glass-panel p-4 mt-4 border-warning border-opacity-25">
+                    <p class="text-light fst-italic small mb-3">
+                        "D-Art Studio created a breathtaking 60-inch canvas for our gallery dining room. Working with their team on the color study was an unforgettable experience!"
+                    </p>
+                    <small class="text-warning fw-bold d-block">&mdash; Marcus & Victoria Vance, NYC Collectors</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
