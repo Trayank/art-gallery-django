@@ -1,8 +1,8 @@
 {% extends 'gallery/base.html' %}
 {% load static %}
 
-{% block title %}Contact D-Art Studio & Soho Gallery Visit | Fine Art Studio{% endblock %}
-{% block meta_description %}Contact D-Art Studio in Soho, NY. Schedule private gallery viewings, press inquiries, and fine art acquisitions.{% endblock %}
+{% block title %}Contact D-Art Studio & Location | Fine Art Studio{% endblock %}
+{% block meta_description %}Contact D-Art Studio. Schedule gallery viewings, workshop inquiries, and fine art acquisitions.{% endblock %}
 
 {% block extra_head %}
 <!-- LocalBusiness JSON-LD Structured Data -->
@@ -13,28 +13,29 @@
   "name": "D-Art Studio",
   "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'gallery/images/artist-og.jpg' %}",
   "url": "{{ request.build_absolute_uri }}",
-  "telephone": "+1-212-890-4432",
+  "telephone": "+91-9755113400",
   "email": "contact@dartstudio.art",
   "priceRange": "$$$",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "452 West Broadway",
-    "addressLocality": "Soho, New York",
-    "addressRegion": "NY",
-    "postalCode": "10012",
-    "addressCountry": "US"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 40.7259,
-    "longitude": -74.0003
+    "streetAddress": "Flat No 2012, B Block, Silver Oak Apartment, Bhatagaon",
+    "addressLocality": "Raipur",
+    "addressRegion": "Chhattisgarh",
+    "postalCode": "492013",
+    "addressCountry": "IN"
   },
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      "opens": "11:00",
-      "closes": "18:00"
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "16:00",
+      "closes": "18:30"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday", "Sunday"],
+      "opens": "10:00",
+      "closes": "12:00"
     }
   ]
 }
@@ -46,9 +47,9 @@
 <section class="py-5 text-white position-relative" style="background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 70%);">
     <div class="container text-center py-3">
         <span class="text-warning text-uppercase fw-bold tracking-wider small">Get In Touch</span>
-        <h1 class="display-4 font-serif text-white mb-3">Contact D-Art Studio & Soho Gallery</h1>
+        <h1 class="display-4 font-serif text-white mb-3">Contact D-Art Studio</h1>
         <p class="lead text-secondary mx-auto" style="max-width: 650px;">
-            Whether inquiring about artwork acquisition, scheduling a private studio viewing, or discussing press coverage, we look forward to hearing from you.
+            Whether inquiring about artwork acquisition, scheduling a studio viewing, or booking masterclass workshops, we look forward to hearing from you.
         </p>
     </div>
 </section>
@@ -113,46 +114,53 @@
                     <h3 class="font-serif text-white mb-4">Studio Information</h3>
 
                     <div class="mb-4">
-                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-geo-alt-fill me-2"></i> Soho Gallery Address</h6>
-                        <p class="text-light mb-0">
-                            452 West Broadway<br>
-                            Soho, New York, NY 10012<br>
-                            United States
+                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-geo-alt-fill me-2"></i> Studio Location Address</h6>
+                        <p class="text-light mb-2">
+                            Flat No 2012, B Block, Silver Oak Apartment,<br>
+                            Bhatagaon, Raipur, Chhattisgarh 492013
                         </p>
+                        <a href="https://maps.app.goo.gl/DHDfNzAGShf5fGHV7" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-map-fill me-1"></i> Open Google Maps Location
+                        </a>
                     </div>
 
                     <div class="mb-4">
-                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-clock-fill me-2"></i> Gallery Hours</h6>
-                        <p class="text-light mb-1"><strong>Tuesday &ndash; Saturday:</strong> 11:00 AM &ndash; 6:00 PM EST</p>
-                        <p class="text-secondary small mb-0">Sunday & Monday: Private Viewings by Appointment Only</p>
+                        <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-clock-fill me-2"></i> Studio Hours</h6>
+                        <p class="text-light mb-1"><strong>Monday &ndash; Friday:</strong> 4:00 PM &ndash; 6:30 PM</p>
+                        <p class="text-light mb-0"><strong>Saturday &ndash; Sunday:</strong> 10:00 AM &ndash; 12:00 PM</p>
                     </div>
 
                     <div class="mb-4">
                         <h6 class="text-warning text-uppercase fw-bold mb-2 small"><i class="bi bi-telephone-fill me-2"></i> Direct Contact</h6>
-                        <p class="text-light mb-1">Email: <a href="mailto:contact@dartstudio.art" class="text-warning text-decoration-none">contact@dartstudio.art</a></p>
-                        <p class="text-light mb-0">Phone: <a href="tel:+12128904432" class="text-warning text-decoration-none">+1 (212) 890-4432</a></p>
+                        <p class="text-light mb-1">Phone / WhatsApp: <a href="tel:9755113400" class="text-warning text-decoration-none fw-semibold">+91 97551 13400</a></p>
+                        <p class="text-light mb-0">Email: <a href="mailto:contact@dartstudio.art" class="text-warning text-decoration-none">contact@dartstudio.art</a></p>
                     </div>
 
                     <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-30 mt-auto">
                         <small class="text-warning fw-bold d-block mb-1"><i class="bi bi-shield-check me-1"></i> Private Collector Services</small>
-                        <p class="text-secondary small mb-0">Private studio consultations, art advisory, and custom framing recommendations available upon request.</p>
+                        <p class="text-secondary small mb-0">Private studio consultations, art advisory, and custom commissions available upon request.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Embedded Google Maps Location iframe -->
+        <!-- Embedded Google Maps Location iframe & Direct Button -->
         <div class="row mt-5">
             <div class="col-12">
                 <div class="glass-panel p-3">
-                    <h4 class="font-serif text-white mb-3 px-2"><i class="bi bi-map-fill text-warning me-2"></i> Studio & Gallery Location Map</h4>
+                    <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                        <h4 class="font-serif text-white mb-0"><i class="bi bi-map-fill text-warning me-2"></i> Studio Location Map</h4>
+                        <a href="https://maps.app.goo.gl/DHDfNzAGShf5fGHV7" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-sm">
+                            <i class="bi bi-box-arrow-up-right me-1"></i> View on Google Maps
+                        </a>
+                    </div>
                     <div class="rounded-3 overflow-hidden shadow-lg" style="height: 420px;">
                         <iframe
-                            title="D-Art Studio Soho Location"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.479590456108!2d-74.0028723234241!3d40.72594617139151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598c8c5c7d81%3A0x6b823e59005086d9!2s452%20W%20Broadway%2C%20New%20York%2C%20NY%2010012!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                            title="D-Art Studio Location Map"
+                            src="https://maps.google.com/maps?q=D-Art+Studio&t=&z=15&ie=UTF8&iwloc=&output=embed"
                             width="100%"
                             height="100%"
-                            style="border:0; filter: grayscale(80%) invert(90%) contrast(1.2);"
+                            style="border:0; filter: grayscale(30%) invert(90%) contrast(1.2);"
                             allowfullscreen=""
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
