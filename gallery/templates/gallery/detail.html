@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}{{ artwork.title }} - Original {{ artwork.medium }} | D-Art Studio{% endblock %}
-{% block meta_description %}{{ artwork.title }} is an original {{ artwork.medium }} painting ({{ artwork.dimensions }}) at D-Art Studio. Price: ${{ artwork.price }}.{% endblock %}
+{% block meta_description %}{{ artwork.title }} is an original {{ artwork.medium }} painting ({{ artwork.dimensions }}) at D-Art Studio. Price: Rs {{ artwork.price }}.{% endblock %}
 
 {% block og_title %}{{ artwork.title }} | Original {{ artwork.medium }}{% endblock %}
 {% block og_description %}{{ artwork.description|truncatewords:25 }}{% endblock %}
@@ -27,7 +27,7 @@
   "offers": {
     "@type": "Offer",
     "url": "{{ request.build_absolute_uri }}",
-    "priceCurrency": "USD",
+    "priceCurrency": "INR",
     "price": "{{ artwork.price }}",
     "itemCondition": "https://schema.org/NewCondition",
     "availability": "{% if artwork.is_available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
@@ -79,8 +79,8 @@
                     <div class="p-3 bg-dark bg-opacity-60 rounded-3 mb-4 border border-secondary border-opacity-30">
                         <small class="text-secondary text-uppercase tracking-wider d-block mb-1">Acquisition Price</small>
                         <div class="d-flex align-items-baseline gap-2">
-                            <span class="display-6 fw-bold text-warning">${{ artwork.price|floatformat:2 }}</span>
-                            <span class="text-secondary small">USD (Complimentary Insured Shipping)</span>
+                            <span class="display-6 fw-bold text-warning">Rs {{ artwork.price|floatformat:2 }}</span>
+                            <span class="text-secondary small">INR (Complimentary Insured Shipping)</span>
                         </div>
                     </div>
 
@@ -170,7 +170,7 @@
                                     <h5 class="font-serif text-white mb-1"><a href="{% url 'gallery:artwork_detail' item.slug %}" class="text-white text-decoration-none hover-gold">{{ item.title }}</a></h5>
                                     <small class="text-secondary mb-3 d-block">{{ item.medium }} &bull; {{ item.dimensions }}</small>
                                     <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
-                                        <span class="fw-bold text-warning">${{ item.price|floatformat:2 }}</span>
+                                        <span class="fw-bold text-warning">Rs {{ item.price|floatformat:2 }}</span>
                                         <a href="{% url 'gallery:artwork_detail' item.slug %}" class="btn btn-outline-gold btn-sm">View <i class="bi bi-chevron-right ms-1"></i></a>
                                     </div>
                                 </div>

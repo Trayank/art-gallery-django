@@ -12,10 +12,10 @@ class CommissionRequestForm(forms.ModelForm):
     ]
 
     BUDGET_CHOICES = [
-        ('$500 - $1,000', '$500 - $1,000 (Small Canvas / Sketch)'),
-        ('$1,000 - $2,500', '$1,000 - $2,500 (Medium Canvas)'),
-        ('$2,500 - $5,000', '$2,500 - $5,000 (Large Statement Piece)'),
-        ('$5,000+', '$5,000+ (Gallery / Mural Installation)'),
+        ('Rs 5,000 - Rs 15,000', 'Rs 5,000 - Rs 15,000 (Small Canvas / Sketch)'),
+        ('Rs 15,000 - Rs 35,000', 'Rs 15,000 - Rs 35,000 (Medium Canvas)'),
+        ('Rs 35,000 - Rs 75,000', 'Rs 35,000 - Rs 75,000 (Large Statement Piece)'),
+        ('Rs 75,000+', 'Rs 75,000+ (Gallery / Mural Installation)'),
     ]
 
     style = forms.ChoiceField(

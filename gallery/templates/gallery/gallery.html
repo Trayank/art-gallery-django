@@ -56,9 +56,9 @@
                     <label for="price_range" class="form-label text-warning small text-uppercase fw-semibold">Price Range</label>
                     <select id="price_range" name="price_range" class="form-select bg-dark border-secondary text-white" onchange="this.form.submit()">
                         <option value="all" {% if selected_price == 'all' %}selected{% endif %}>Any Price</option>
-                        <option value="under-1000" {% if selected_price == 'under-1000' %}selected{% endif %}>Under $1,000</option>
-                        <option value="1000-2500" {% if selected_price == '1000-2500' %}selected{% endif %}>$1,000 - $2,500</option>
-                        <option value="over-2500" {% if selected_price == 'over-2500' %}selected{% endif %}>Over $2,500</option>
+                        <option value="under-1000" {% if selected_price == 'under-1000' %}selected{% endif %}>Under Rs 10,000</option>
+                        <option value="1000-2500" {% if selected_price == '1000-2500' %}selected{% endif %}>Rs 10,000 - Rs 30,000</option>
+                        <option value="over-2500" {% if selected_price == 'over-2500' %}selected{% endif %}>Over Rs 30,000</option>
                     </select>
                 </div>
 
@@ -104,7 +104,7 @@
                             <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
                                 <div>
                                     <small class="text-secondary d-block">Price</small>
-                                    <span class="fs-5 fw-bold text-warning">${{ artwork.price|floatformat:2 }}</span>
+                                    <span class="fs-5 fw-bold text-warning">Rs {{ artwork.price|floatformat:2 }}</span>
                                 </div>
                                 <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-outline-gold btn-sm">
                                     View Piece <i class="bi bi-chevron-right ms-1"></i>

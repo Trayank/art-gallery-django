@@ -108,7 +108,7 @@
                             <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
                                 <div>
                                     <small class="text-secondary d-block">Price</small>
-                                    <span class="fs-5 fw-bold text-warning">${{ artwork.price|floatformat:2 }}</span>
+                                    <span class="fs-5 fw-bold text-warning">Rs {{ artwork.price|floatformat:2 }}</span>
                                 </div>
                                 <a href="{% url 'gallery:artwork_detail' artwork.slug %}" class="btn btn-outline-gold btn-sm">
                                     View Details <i class="bi bi-chevron-right ms-1"></i>
@@ -137,7 +137,7 @@
                     </span>
                     <h2 class="display-6 text-white font-serif mb-3">Immersive Fine Art Masterclasses</h2>
                     <p class="text-secondary mb-4">
-                        Join master instructors at D-Art Studio in our Soho workspace for intimate, hands-on workshops covering classical oil glazing, contemporary impasto techniques, and color theory. Class sizes are strictly limited.
+                        Join master instructors at D-Art Studio in our Raipur workspace for intimate, hands-on workshops covering classical oil glazing, contemporary impasto techniques, and color theory. Class sizes are strictly limited.
                     </p>
 
                     {% if upcoming_classes %}
@@ -147,7 +147,7 @@
                                     <div class="p-3 bg-dark bg-opacity-60 rounded-3 border border-secondary border-opacity-30">
                                         <div class="d-flex justify-content-between text-warning small fw-bold mb-1">
                                             <span><i class="bi bi-calendar-event me-1"></i> {{ art_class.date|date:"N j, Y @ g:i A" }}</span>
-                                            <span>${{ art_class.price|floatformat:0 }}</span>
+                                            <span>Rs {{ art_class.price|floatformat:0 }}</span>
                                         </div>
                                         <h6 class="text-white font-serif mb-1">{{ art_class.title }}</h6>
                                         <small class="text-secondary"><i class="bi bi-people me-1"></i> {{ art_class.seats_available }} seats remaining</small>
@@ -231,7 +231,7 @@
                             </div>
                             <div>
                                 <h5 class="font-serif mb-2">Studio Visits</h5>
-                                <p class="text-secondary small mb-0">Private Soho gallery viewing sessions available by appointment for collectors.</p>
+                                <p class="text-secondary small mb-0">Private Raipur gallery viewing sessions available by appointment for collectors.</p>
                             </div>
                         </div>
                     </div>

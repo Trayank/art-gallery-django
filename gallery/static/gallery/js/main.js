@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (modalClassIdInput) modalClassIdInput.value = classId;
                 if (modalTitleSpan) modalTitleSpan.textContent = classTitle;
-                if (modalPriceSpan) modalPriceSpan.textContent = '$' + classPrice;
+                if (modalPriceSpan) modalPriceSpan.textContent = 'Rs ' + classPrice;
                 if (modalSeatsInput && seatsAvailable) {
                     modalSeatsInput.setAttribute('max', seatsAvailable);
                 }
